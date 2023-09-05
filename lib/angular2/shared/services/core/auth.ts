@@ -114,7 +114,7 @@ export class LoopBackAuth {
    **/
   public save(): boolean {
       let today = new Date();
-      let expires = new Date(today.getTime() + (this.token.ttl * 1000));
+      let expires = new Date(today.getTime() + ((this.token.ttl ?? 0) * 1000));
       this.persist('id', this.token.id, expires);
       this.persist('user', this.token.user, expires);
       this.persist('userId', this.token.userId, expires);
@@ -154,7 +154,7 @@ export class LoopBackAuth {
       this.storage.set(
         `${this.prefix}${prop}`,
         (typeof value === 'object') ? JSON.stringify(value) : value,
-        this.token.rememberMe?expires:null
+        this.token.rememberMe?expires:undefined
       );
     }
     catch (err) {
